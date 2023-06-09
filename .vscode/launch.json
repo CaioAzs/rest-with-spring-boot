@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-AzsrestApplication<azsrest>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.restspringboot.azsrest.AzsrestApplication",
+            "projectName": "azsrest",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
