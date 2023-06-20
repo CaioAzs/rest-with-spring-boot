@@ -45,8 +45,16 @@ public class Person implements Serializable {
     public void setGender(String gender) {
         this.gender = gender;
     }
+    
+    public Long getId() {
+		return id;
+	}
 
-    @Override
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	@Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;

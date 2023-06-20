@@ -1,18 +1,32 @@
 package com.restspringboot.azsrest.controllers;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.restspringboot.azsrest.exceptions.UnsupportedMathOperationException;
+import com.restspringboot.azsrest.models.Person;
+import com.restspringboot.azsrest.services.PersonService;
 
 @RestController
+@RequestMapping("/person")
 public class PersonController {
-    
-    @GetMapping(value = "/sum/{number1}/{number2}")
-    public Double sum(@PathVariable(value = "number1")String number1, @PathVariable(value = "number2")String number2) throws Exception {
-        
-       return 0D;
+
+    @Autowired
+    PersonService personService;
+
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Person findById(@PathVariable(value = "id") String id) throws Exception {
+
+        return personService.findById(id);
     }
 
+    @GetMapping(value = "/ids/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Person> findAll() throws Exception {
+        return personService.findAll();
+    }
 }
