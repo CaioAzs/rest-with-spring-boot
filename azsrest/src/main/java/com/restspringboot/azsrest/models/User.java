@@ -2,7 +2,7 @@ package com.restspringboot.azsrest.models;
 
 import java.io.Serializable;
 
-public class Person implements Serializable {
+public class User implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long id;
@@ -11,7 +11,7 @@ public class Person implements Serializable {
     private String address;
     private String gender;
     
-    public Person(){
+    public User(){
     }
 
     public String getFirstName() {
@@ -74,7 +74,7 @@ public class Person implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Person other = (Person) obj;
+        User other = (User) obj;
         if (id == null) {
             if (other.id != null)
                 return false;
