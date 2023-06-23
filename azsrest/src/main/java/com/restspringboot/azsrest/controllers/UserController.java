@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,14 +24,14 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public User findById(@PathVariable(value = "id") String id) throws Exception {
-        return userService.findById(id);
-    }
-
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<User> findAll() throws Exception {
         return userService.findAll();
+    }
+
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public User findById(@PathVariable(value = "id") Long id) throws Exception {
+        return userService.findById(id);
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -43,8 +44,9 @@ public class UserController {
         return userService.putUser(user);
     }
 
-    @DeleteMapping
-    public void deleteUser(@PathVariable (value = "id") String id){
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable(value = "id") Long id) {
         userService.deleteUser(id);
+        return ResponseEntity.noContent().build();
     }
 }

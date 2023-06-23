@@ -1,73 +1,63 @@
 package com.restspringboot.azsrest.services;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Logger;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.restspringboot.azsrest.exceptions.ResourceNotFoundException;
 import com.restspringboot.azsrest.models.User;
+import com.restspringboot.azsrest.repositories.UserRepository;
 
 @Service
 public class UserService {
 
     // Aqui serão implemetadas as lógicas de consulta da aplicação.
 
-    private final AtomicLong userId = new AtomicLong();
     private Logger logger = Logger.getLogger(UserService.class.getName());
+
+    @Autowired
+    UserRepository userRepository;
 
     public List<User> findAll() {
 
         logger.info("findAll called");
 
-        List<User> users = new ArrayList<User>();
-        for (int i = 0; i < 8; i++) {
-            User user = mockPerson(i);
-            users.add(user);
-        }
-
-        return users;
+        return userRepository.findAll();
     }
 
-    public User findById(String id) {
+    public User findById(Long id) throws Exception {
 
-        User user = new User();
-        user.setId(userId.incrementAndGet());
-        user.setFirstName("Caio");
-        user.setLastName("Souza");
-        user.setAddress("SBC");
-        user.setGender("Male");
-
-        return user;
+        return userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("ID not found."));
     }
 
     public User postUser(User user) {
         logger.info("createUser called");
 
-        return user;
+        return userRepository.save(user);
     }
 
     public User putUser(User user) {
         logger.info("updateUser called");
 
-        return user;
+        var entity = userRepository.findById(user.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("ID not found."));
+
+        entity.setFirstName(user.getFirstName());
+        entity.setLastName(user.getLastName());
+        entity.setGender(user.getGender());
+        entity.setAddress(user.getAddress());
+
+        return userRepository.save(entity);
     }
 
-    public void deleteUser (String userId) {
-        logger.info("deleteUser called"  + userId);
+    public void deleteUser(Long userId) {
+        logger.info("deleteUser called" + userId);
 
+        var entity = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("ID not found."));
+
+        userRepository.delete(entity);
     }
 
-    private User mockPerson(int i) {
-
-        logger.info("findById called!");
-        User user = new User();
-        user.setId(userId.incrementAndGet());
-        user.setFirstName("Person name " + i);
-        user.setLastName("Last name " + i);
-        user.setAddress("Address " + i);
-        user.setGender("Gender " + i);
-        return user;
-    }
 }

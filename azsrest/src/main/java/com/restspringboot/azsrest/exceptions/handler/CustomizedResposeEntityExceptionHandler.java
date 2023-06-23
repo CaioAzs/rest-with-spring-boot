@@ -11,23 +11,25 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.restspringboot.azsrest.exceptions.ExceptionResponse;
-import com.restspringboot.azsrest.exceptions.UnsupportedMathOperationException;
+import com.restspringboot.azsrest.exceptions.ResourceNotFoundException;
 
 @ControllerAdvice
 @RestController
-public class CustomizedResposeEntityExceptionHandler extends ResponseEntityExceptionHandler{
-    
+public class CustomizedResposeEntityExceptionHandler extends ResponseEntityExceptionHandler {
+
     @ExceptionHandler(Exception.class)
-    public final ResponseEntity<ExceptionResponse> handleAllExceptions(ExceptionResponse ex, WebRequest request){
-        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(), request.getDescription(false));
+    public final ResponseEntity<ExceptionResponse> handleAllExceptions(ExceptionResponse ex, WebRequest request) {
+        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(),
+                request.getDescription(false));
         return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
 
     }
 
-    @ExceptionHandler(UnsupportedMathOperationException.class)
-    public final ResponseEntity<ExceptionResponse> handleBadRequestExceptions(ExceptionResponse ex, WebRequest request){
-        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(), request.getDescription(false));
-        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public final ResponseEntity<ExceptionResponse> handleNotFoundExceptions(ExceptionResponse ex, WebRequest request) {
+        ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), ex.getMessage(),
+                request.getDescription(false));
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.NOT_FOUND);
 
     }
 
