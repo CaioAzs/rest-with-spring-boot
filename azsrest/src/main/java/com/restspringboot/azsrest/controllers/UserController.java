@@ -18,7 +18,7 @@ import com.restspringboot.azsrest.services.UserService;
 import com.restspringboot.azsrest.vo.v1.UserVO;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user/v1")
 public class UserController {
 
     @Autowired
