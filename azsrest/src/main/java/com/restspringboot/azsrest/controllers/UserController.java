@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.restspringboot.azsrest.models.User;
 import com.restspringboot.azsrest.services.UserService;
+import com.restspringboot.azsrest.vo.v1.UserVO;
 
 @RestController
 @RequestMapping("/user")
@@ -25,22 +25,22 @@ public class UserController {
     UserService userService;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<User> findAll() throws Exception {
+    public List<UserVO> findAll() throws Exception {
         return userService.findAll();
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public User findById(@PathVariable(value = "id") Long id) throws Exception {
+    public UserVO findById(@PathVariable(value = "id") Long id) throws Exception {
         return userService.findById(id);
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public User postUser(@RequestBody User user) throws Exception {
+    public UserVO postUser(@RequestBody UserVO user) throws Exception {
         return userService.postUser(user);
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public User putUser(@RequestBody User user) throws Exception {
+    public UserVO putUser(@RequestBody UserVO user) throws Exception {
         return userService.putUser(user);
     }
 

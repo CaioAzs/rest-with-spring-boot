@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.restspringboot.azsrest.exceptions.ResourceNotFoundException;
+import com.restspringboot.azsrest.mapper.Mapper;
 import com.restspringboot.azsrest.models.User;
 import com.restspringboot.azsrest.repositories.UserRepository;
+import com.restspringboot.azsrest.vo.v1.UserVO;
 
 @Service
 public class UserService {
@@ -20,25 +22,28 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
-    public List<User> findAll() {
+    public List<UserVO> findAll() {
 
         logger.info("findAll called");
 
-        return userRepository.findAll();
+        return Mapper.parseObjectList(userRepository.findAll(), UserVO.class);
     }
 
-    public User findById(Long id) throws Exception {
+    public UserVO findById(Long id) throws Exception {
 
-        return userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("ID not found."));
+        var entity = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("ID not found."));
+
+        return Mapper.parseObject(entity, UserVO.class);
     }
 
-    public User postUser(User user) {
+    public UserVO postUser(UserVO user) {
         logger.info("createUser called");
-
-        return userRepository.save(user);
+        var entity1 = Mapper.parseObject(user, User.class);
+        var vo = Mapper.parseObject(userRepository.save(entity1), UserVO.class);
+        return vo;
     }
 
-    public User putUser(User user) {
+    public UserVO putUser(UserVO user) {
         logger.info("updateUser called");
 
         var entity = userRepository.findById(user.getId())
@@ -49,7 +54,9 @@ public class UserService {
         entity.setGender(user.getGender());
         entity.setAddress(user.getAddress());
 
-        return userRepository.save(entity);
+        var vo = Mapper.parseObject(userRepository.save(entity), UserVO.class);
+
+        return vo;
     }
 
     public void deleteUser(Long userId) {
