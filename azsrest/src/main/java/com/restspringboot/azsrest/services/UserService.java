@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.restspringboot.azsrest.exceptions.ResourceNotFoundException;
-import com.restspringboot.azsrest.mapper.Mapper;
+import com.restspringboot.azsrest.mapper.DozerMapper;
 import com.restspringboot.azsrest.models.User;
 import com.restspringboot.azsrest.repositories.UserRepository;
 import com.restspringboot.azsrest.vo.v1.UserVO;
@@ -26,27 +26,27 @@ public class UserService {
 
         logger.info("findAll called");
 
-        return Mapper.parseObjectList(userRepository.findAll(), UserVO.class);
+        return DozerMapper.parseObjectList(userRepository.findAll(), UserVO.class);
     }
 
     public UserVO findById(Long id) throws Exception {
 
         var entity = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("ID not found."));
 
-        return Mapper.parseObject(entity, UserVO.class);
+        return DozerMapper.parseObject(entity, UserVO.class);
     }
 
     public UserVO postUser(UserVO user) {
         logger.info("createUser called");
-        var entity1 = Mapper.parseObject(user, User.class);
-        var vo = Mapper.parseObject(userRepository.save(entity1), UserVO.class);
+        var entity1 = DozerMapper.parseObject(user, User.class);
+        var vo = DozerMapper.parseObject(userRepository.save(entity1), UserVO.class);
         return vo;
     }
 
     public UserVO putUser(UserVO user) {
         logger.info("updateUser called");
 
-        var entity = userRepository.findById(user.getId())
+        var entity = userRepository.findById(user.getKey())
                 .orElseThrow(() -> new ResourceNotFoundException("ID not found."));
 
         entity.setFirstName(user.getFirstName());
@@ -54,7 +54,7 @@ public class UserService {
         entity.setGender(user.getGender());
         entity.setAddress(user.getAddress());
 
-        var vo = Mapper.parseObject(userRepository.save(entity), UserVO.class);
+        var vo = DozerMapper.parseObject(userRepository.save(entity), UserVO.class);
 
         return vo;
     }
