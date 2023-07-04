@@ -1,4 +1,4 @@
-package com.restspringboot.azsrest.unittests.mapper.mocks;
+package com.restspringboot.azsrest.unittests.mocks;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +35,7 @@ public class MockUser {
     
     public User mockEntity(Integer number) {
         User user = new User();
-        user.setAddress("Addres Test" + number);
+        user.setAddress("Address Test" + number);
         user.setFirstName("First Name Test" + number);
         user.setGender(((number % 2)==0) ? "Male" : "Female");
         user.setId(number.longValue());
@@ -45,7 +45,7 @@ public class MockUser {
 
     public UserVO mockVO(Integer number) {
         UserVO user = new UserVO();
-        user.setAddress("Addres Test" + number);
+        user.setAddress("Address Test" + number);
         user.setFirstName("First Name Test" + number);
         user.setGender(((number % 2)==0) ? "Male" : "Female");
         user.setKey(number.longValue());

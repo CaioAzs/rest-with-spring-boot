@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.restspringboot.azsrest.controllers.UserController;
+import com.restspringboot.azsrest.exceptions.RequiredObjectNullException;
 import com.restspringboot.azsrest.exceptions.ResourceNotFoundException;
 import com.restspringboot.azsrest.mapper.DozerMapper;
 import com.restspringboot.azsrest.models.User;
@@ -57,6 +58,10 @@ public class UserService {
     }
 
     public UserVO postUser(UserVO user) throws Exception {
+
+        if (user == null)
+            throw new RequiredObjectNullException();
+
         logger.info("createUser called");
         var entity1 = DozerMapper.parseObject(user, User.class);
 
@@ -70,6 +75,10 @@ public class UserService {
     }
 
     public UserVO putUser(UserVO user) throws Exception {
+
+        if (user == null)
+            throw new RequiredObjectNullException();
+
         logger.info("updateUser called");
 
         var entity = userRepository.findById(user.getKey())
@@ -80,7 +89,7 @@ public class UserService {
         entity.setGender(user.getGender());
         entity.setAddress(user.getAddress());
 
-        //Map to VO
+        // Map to VO
         var vo = DozerMapper.parseObject(userRepository.save(entity), UserVO.class);
 
         // HATEOAS self
