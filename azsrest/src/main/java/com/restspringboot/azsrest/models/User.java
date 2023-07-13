@@ -29,6 +29,8 @@ public class User implements Serializable {
     
     @Column(name = "gender")
     private String gender;
+
+    
     
     public User(){
     }

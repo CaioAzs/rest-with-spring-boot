@@ -23,4 +23,5 @@ public class OpenApiConfig {
     }
 
     // http://localhost:8080/swagger-ui/index.html#/
+    // Use this link to see the API documentation"
 }
