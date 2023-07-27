@@ -10,8 +10,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "users")
-public class User implements Serializable {
+@Table(name = "person")
+public class Person implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -20,19 +20,17 @@ public class User implements Serializable {
 
     @Column(name = "first_name", nullable = false)
     private String firstName;
-    
+
     @Column(name = "last_name")
     private String lastName;
-    
+
     @Column(name = "address")
     private String address;
-    
+
     @Column(name = "gender")
     private String gender;
 
-    
-    
-    public User(){
+    public Person() {
     }
 
     public String getFirstName() {
@@ -66,16 +64,16 @@ public class User implements Serializable {
     public void setGender(String gender) {
         this.gender = gender;
     }
-    
+
     public Long getId() {
-		return id;
-	}
+        return id;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	@Override
+    @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
@@ -95,7 +93,7 @@ public class User implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        User other = (User) obj;
+        Person other = (Person) obj;
         if (id == null) {
             if (other.id != null)
                 return false;
@@ -124,6 +122,4 @@ public class User implements Serializable {
         return true;
     }
 
-
-    
 }

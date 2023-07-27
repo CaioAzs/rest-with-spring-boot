@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.restspringboot.azsrest.services.UserService;
-import com.restspringboot.azsrest.vo.v1.UserVO;
+import com.restspringboot.azsrest.services.PersonService;
+import com.restspringboot.azsrest.vo.v1.PersonVO;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -27,17 +27,17 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 //@CrossOrigin
 @RestController
-@RequestMapping("/api/user/v1")
-@Tag(name = "Users", description = "Users CRUD")
-public class UserController {
+@RequestMapping("/api/person/v1")
+@Tag(name = "Person", description = "Person CRUD")
+public class PersonController {
 
     @Autowired
-    UserService userService;
+    PersonService personService;
 
     @GetMapping(produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
     @Operation(summary = "Finds all users", 
             description = "Finds all users", 
-            tags = { "Users" }, 
+            tags = { "Person" }, 
             responses = {
             @ApiResponse(description = "Success", responseCode = "200", content = @Content),
             @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
@@ -45,62 +45,62 @@ public class UserController {
             @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
             @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content),
         })
-    public List<UserVO> findAll() throws Exception {
-        return userService.findAll();
+    public List<PersonVO> findAll() throws Exception {
+        return personService.findAll();
     }
 
     @CrossOrigin(origins = "http://localhost:8080")
     @GetMapping(value = "/{id}", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
-    @Operation(summary = "Finds a user by id", 
-            description = "Finds a user by id", 
-            tags = { "Users" }, 
+    @Operation(summary = "Finds someone by id", 
+            description = "Finds someone by id", 
+            tags = { "Person" }, 
             responses = {
-            @ApiResponse(description = "Success", responseCode = "200", content = @Content(schema = @Schema(implementation = UserVO.class))),
+            @ApiResponse(description = "Success", responseCode = "200", content = @Content(schema = @Schema(implementation = PersonVO.class))),
             @ApiResponse(description = "No Content", responseCode = "204", content = @Content),
             @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
             @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
             @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
             @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content),
         })
-    public UserVO findById(@PathVariable(value = "id") Long id) throws Exception {
-        return userService.findById(id);
+    public PersonVO findById(@PathVariable(value = "id") Long id) throws Exception {
+        return personService.findById(id);
     }
 
     @CrossOrigin(origins = "http://localhost:8080")
     @PostMapping(produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, consumes = {
             MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
-    @Operation(summary = "Creates a new user", 
-            description = "Creates a new user by consuming a JSON or XML representation of the specified user", 
-            tags = { "Users" },
+    @Operation(summary = "Creates a new person", 
+            description = "Creates a new person by consuming a JSON or XML representation of the specified person", 
+            tags = { "Person" },
             responses = {
-            @ApiResponse(description = "Success", responseCode = "200", content = @Content(schema = @Schema(implementation = UserVO.class))),
+            @ApiResponse(description = "Success", responseCode = "200", content = @Content(schema = @Schema(implementation = PersonVO.class))),
             @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
             @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
             @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content),
         })
-    public UserVO postUser(@RequestBody UserVO user) throws Exception {
-        return userService.postUser(user);
+    public PersonVO postPerson(@RequestBody PersonVO person) throws Exception {
+        return personService.postPerson(person);
     }
 
     @PutMapping(produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, consumes = {
             MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
-    @Operation(summary = "Updates a user", 
-            description = "Updates a user by consuming a JSON or XML representation of the specified user", 
-            tags = { "Users" },
+    @Operation(summary = "Updates a person", 
+            description = "Updates a person by consuming a JSON or XML representation of the specified person", 
+            tags = { "Person" },
             responses = {
             @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
             @ApiResponse(description = "Unauthorized", responseCode = "401", content = @Content),
             @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
             @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content),
         })
-    public UserVO putUser(@RequestBody UserVO user) throws Exception {
-        return userService.putUser(user);
+    public PersonVO putPerson(@RequestBody PersonVO person) throws Exception {
+        return personService.putPerson(person);
     }
 
     @DeleteMapping(value = "/{id}")
-    @Operation(summary = "Updates a user", 
-            description = "Updates a user by consuming a JSON or XML representation of the specified user", 
-            tags = { "Users" },
+    @Operation(summary = "Updates a person", 
+            description = "Updates a person by consuming a JSON or XML representation of the specified person", 
+            tags = { "Person" },
             responses = {
             @ApiResponse(description = "No Content", responseCode = "204", content = @Content),
             @ApiResponse(description = "Bad Request", responseCode = "400", content = @Content),
@@ -108,8 +108,8 @@ public class UserController {
             @ApiResponse(description = "Not Found", responseCode = "404", content = @Content),
             @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content),
         })
-    public ResponseEntity<?> deleteUser(@PathVariable(value = "id") Long id) {
-        userService.deleteUser(id);
+    public ResponseEntity<?> deletePerson(@PathVariable(value = "id") Long id) {
+        personService.deletePerson(id);
         return ResponseEntity.noContent().build();
     }
 } 

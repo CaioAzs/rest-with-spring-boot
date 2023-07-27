@@ -21,34 +21,34 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.restspringboot.azsrest.exceptions.RequiredObjectNullException;
-import com.restspringboot.azsrest.models.User;
-import com.restspringboot.azsrest.repositories.UserRepository;
-import com.restspringboot.azsrest.services.UserService;
-import com.restspringboot.azsrest.unittests.mocks.MockUser;
-import com.restspringboot.azsrest.vo.v1.UserVO;
+import com.restspringboot.azsrest.models.Person;
+import com.restspringboot.azsrest.repositories.PersonRepository;
+import com.restspringboot.azsrest.services.PersonService;
+import com.restspringboot.azsrest.unittests.mocks.MockPerson;
+import com.restspringboot.azsrest.vo.v1.PersonVO;
 
 @TestInstance(Lifecycle.PER_CLASS)
 @ExtendWith(MockitoExtension.class)
-class UserServiceTest {
+class PersonServiceTest {
 
-	MockUser mockedUser;
+	MockPerson mockedUser;
 
 	@InjectMocks
-	private UserService userService;
+	private PersonService userService;
 
 	@Mock
-	UserRepository userRepository;
+	PersonRepository userRepository;
 
 	@BeforeEach
 	void setUp() throws Exception {
 
-		mockedUser = new MockUser();
+		mockedUser = new MockPerson();
 		MockitoAnnotations.openMocks(this);
 	}
 
 	@Test
 	void testFindById() throws Exception {
-		User entity = mockedUser.mockEntity(1);
+		Person entity = mockedUser.mockEntity(1);
 
 		when(userRepository.findById(1L)).thenReturn(Optional.of(entity));
 
@@ -56,7 +56,7 @@ class UserServiceTest {
 		assertNotNull(result);
 		assertNotNull(result.getKey());
 		assertNotNull(result.getLinks());
-		assertTrue(result.toString().contains("links: [</api/user/v1/1>;rel=\"self\"]"));
+		assertTrue(result.toString().contains("links: [</api/person/v1/1>;rel=\"self\"]"));
 		assertEquals("Address Test1", result.getAddress());
 		assertEquals("Female", result.getGender());
 		assertEquals("First Name Test1", result.getFirstName());
@@ -68,7 +68,7 @@ class UserServiceTest {
 	@Test
 	void testFindAll() {
 
-		List<User> entitylist = mockedUser.mockEntityList();
+		List<Person> entitylist = mockedUser.mockEntityList();
 
 		when(userRepository.findAll()).thenReturn(entitylist);
 
@@ -85,7 +85,7 @@ class UserServiceTest {
 		
 		assertNotNull(user_test0.getKey());
 		assertNotNull(user_test0.getLinks());
-		assertTrue(user_test0.toString().contains("links: [</api/user/v1/0>;rel=\"self\"]"));
+		assertTrue(user_test0.toString().contains("links: [</api/person/v1/0>;rel=\"self\"]"));
 		assertEquals("Address Test0", user_test0.getAddress());
 		assertEquals("Male", user_test0.getGender());
 		assertEquals("First Name Test0", user_test0.getFirstName());
@@ -96,24 +96,24 @@ class UserServiceTest {
 
 	@Test
 	void testPostUser() throws Exception {
-		User entity = mockedUser.mockEntity(1);
+		Person entity = mockedUser.mockEntity(1);
 
-		User persisted = entity; // Esse é diferente do primeiro pois quando cria-se um mock, ele nao vem com ID,
+		Person persisted = entity; // Esse é diferente do primeiro pois quando cria-se um mock, ele nao vem com ID,
 									// mas quando
 									// a entidade é persistida no banco, ela passa a ter ID, isso sera usado no WHEN
 									// abaixo
 		persisted.setId(1L);
 
-		UserVO vo = mockedUser.mockVO(1);
+		PersonVO vo = mockedUser.mockVO(1);
 		vo.setKey(1L);
 
 		when(userRepository.save(entity)).thenReturn(persisted);
 
-		var result = userService.postUser(vo);
+		var result = userService.postPerson(vo);
 		assertNotNull(result);
 		assertNotNull(result.getKey());
 		assertNotNull(result.getLinks());
-		assertTrue(result.toString().contains("links: [</api/user/v1/1>;rel=\"self\"]"));
+		assertTrue(result.toString().contains("links: [</api/person/v1/1>;rel=\"self\"]"));
 		assertEquals("Address Test1", result.getAddress());
 		assertEquals("Female", result.getGender());
 		assertEquals("First Name Test1", result.getFirstName());
@@ -127,7 +127,7 @@ class UserServiceTest {
 	void testPostWithNullUser() throws Exception {
 
 		Exception e = assertThrows(RequiredObjectNullException.class, () -> {
-			userService.postUser(null);
+			userService.postPerson(null);
 		});
 
 		String expectedMessage = "You cannot persist a null user.";
@@ -141,25 +141,25 @@ class UserServiceTest {
 
 	@Test
 	void testPutUser() throws Exception {
-		User entity = mockedUser.mockEntity(1);
+		Person entity = mockedUser.mockEntity(1);
 		entity.setId(1L);
-		User persisted = entity; // Esse é diferente do primeiro pois quando cria-se um mock, ele nao vem com ID,
+		Person persisted = entity; // Esse é diferente do primeiro pois quando cria-se um mock, ele nao vem com ID,
 									// mas quando
 									// a entidade é persistida no banco, ela passa a ter ID, isso sera usado no WHEN
 									// abaixo
 		persisted.setId(1L);
 
-		UserVO vo = mockedUser.mockVO(1);
+		PersonVO vo = mockedUser.mockVO(1);
 		vo.setKey(1L);
 
 		when(userRepository.findById(1L)).thenReturn(Optional.of(entity));
 		when(userRepository.save(entity)).thenReturn(persisted);
 
-		var result = userService.putUser(vo);
+		var result = userService.putPerson(vo);
 		assertNotNull(result);
 		assertNotNull(result.getKey());
 		assertNotNull(result.getLinks());
-		assertTrue(result.toString().contains("links: [</api/user/v1/1>;rel=\"self\"]"));
+		assertTrue(result.toString().contains("links: [</api/person/v1/1>;rel=\"self\"]"));
 		assertEquals("Address Test1", result.getAddress());
 		assertEquals("Female", result.getGender());
 		assertEquals("First Name Test1", result.getFirstName());
@@ -172,7 +172,7 @@ class UserServiceTest {
 	void testPutWithNullUser() throws Exception {
 
 		Exception e = assertThrows(RequiredObjectNullException.class, () -> {
-			userService.postUser(null);
+			userService.postPerson(null);
 		});
 
 		String expectedMessage = "You cannot persist a null user.";
@@ -186,12 +186,11 @@ class UserServiceTest {
 
 	@Test
 	void testDeleteUser() throws Exception {
-		User entity = mockedUser.mockEntity(1);
+		Person entity = mockedUser.mockEntity(1);
 
 		when(userRepository.findById(1L)).thenReturn(Optional.of(entity));
 
-		var result = userService.findById(1L);
-		userService.deleteUser(1L);
+		userService.deletePerson(1L);
 
 	}
 

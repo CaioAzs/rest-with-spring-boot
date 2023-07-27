@@ -9,34 +9,34 @@ import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.restspringboot.azsrest.controllers.UserController;
+import com.restspringboot.azsrest.controllers.PersonController;
 import com.restspringboot.azsrest.exceptions.RequiredObjectNullException;
 import com.restspringboot.azsrest.exceptions.ResourceNotFoundException;
 import com.restspringboot.azsrest.mapper.DozerMapper;
-import com.restspringboot.azsrest.models.User;
-import com.restspringboot.azsrest.repositories.UserRepository;
-import com.restspringboot.azsrest.vo.v1.UserVO;
+import com.restspringboot.azsrest.models.Person;
+import com.restspringboot.azsrest.repositories.PersonRepository;
+import com.restspringboot.azsrest.vo.v1.PersonVO;
 
 @Service
-public class UserService {
+public class PersonService {
 
     // Aqui serão implemetadas as lógicas de consulta da aplicação.
 
-    private Logger logger = Logger.getLogger(UserService.class.getName());
+    private Logger logger = Logger.getLogger(PersonService.class.getName());
 
     @Autowired
-    UserRepository userRepository;
+    PersonRepository userRepository;
 
-    public List<UserVO> findAll() {
+    public List<PersonVO> findAll() {
 
         logger.info("findAll called");
 
-        var users = DozerMapper.parseObjectList(userRepository.findAll(), UserVO.class);
+        var users = DozerMapper.parseObjectList(userRepository.findAll(), PersonVO.class);
 
         // HATEOAS self
         users.stream().forEach(u -> {
             try {
-                u.add(linkTo(methodOn(UserController.class).findById(u.getKey())).withSelfRel());
+                u.add(linkTo(methodOn(PersonController.class).findById(u.getKey())).withSelfRel());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -44,37 +44,37 @@ public class UserService {
         return users;
     }
 
-    public UserVO findById(Long id) throws Exception {
+    public PersonVO findById(Long id) throws Exception {
 
         var entity = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("ID not found."));
 
         // Map to VO
-        UserVO vo = DozerMapper.parseObject(entity, UserVO.class);
+        PersonVO vo = DozerMapper.parseObject(entity, PersonVO.class);
 
         // HATEOAS self
-        vo.add(linkTo(methodOn(UserController.class).findById(id)).withSelfRel());
+        vo.add(linkTo(methodOn(PersonController.class).findById(id)).withSelfRel());
 
         return vo;
     }
 
-    public UserVO postUser(UserVO user) throws Exception {
+    public PersonVO postPerson(PersonVO user) throws Exception {
 
         if (user == null)
             throw new RequiredObjectNullException();
 
         logger.info("createUser called");
-        var entity1 = DozerMapper.parseObject(user, User.class);
+        var entity1 = DozerMapper.parseObject(user, Person.class);
 
         // Map to VO
-        var vo = DozerMapper.parseObject(userRepository.save(entity1), UserVO.class);
+        var vo = DozerMapper.parseObject(userRepository.save(entity1), PersonVO.class);
 
         // HATEOAS self
-        vo.add(linkTo(methodOn(UserController.class).findById(vo.getKey())).withSelfRel());
+        vo.add(linkTo(methodOn(PersonController.class).findById(vo.getKey())).withSelfRel());
 
         return vo;
     }
 
-    public UserVO putUser(UserVO user) throws Exception {
+    public PersonVO putPerson(PersonVO user) throws Exception {
 
         if (user == null)
             throw new RequiredObjectNullException();
@@ -90,15 +90,15 @@ public class UserService {
         entity.setAddress(user.getAddress());
 
         // Map to VO
-        var vo = DozerMapper.parseObject(userRepository.save(entity), UserVO.class);
+        var vo = DozerMapper.parseObject(userRepository.save(entity), PersonVO.class);
 
         // HATEOAS self
-        vo.add(linkTo(methodOn(UserController.class).findById(vo.getKey())).withSelfRel());
+        vo.add(linkTo(methodOn(PersonController.class).findById(vo.getKey())).withSelfRel());
 
         return vo;
     }
 
-    public void deleteUser(Long userId) {
+    public void deletePerson(Long userId) {
         logger.info("deleteUser called" + userId);
 
         var entity = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("ID not found."));
