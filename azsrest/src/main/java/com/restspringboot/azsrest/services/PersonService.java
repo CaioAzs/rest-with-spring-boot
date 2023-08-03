@@ -17,6 +17,8 @@ import com.restspringboot.azsrest.models.Person;
 import com.restspringboot.azsrest.repositories.PersonRepository;
 import com.restspringboot.azsrest.vo.v1.PersonVO;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class PersonService {
 
@@ -100,10 +102,28 @@ public class PersonService {
 
     public void deletePerson(Long userId) {
         logger.info("deleteUser called" + userId);
-
+        
         var entity = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("ID not found."));
-
+        
+        
         userRepository.delete(entity);
+    }
+    
+    @Transactional
+    public PersonVO disablePerson(Long id) throws Exception {
+        
+        logger.info("disabling one person" + id);
+
+        userRepository.disablePerson(id);
+
+        var entity = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("ID not found."));
+        // Map to VO
+        PersonVO vo = DozerMapper.parseObject(entity, PersonVO.class);
+
+        // HATEOAS self
+        vo.add(linkTo(methodOn(PersonController.class).findById(id)).withSelfRel());
+
+        return vo;
     }
 
 }

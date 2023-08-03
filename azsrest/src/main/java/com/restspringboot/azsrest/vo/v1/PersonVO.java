@@ -18,18 +18,26 @@ public class PersonVO extends  RepresentationModel<PersonVO> implements Serializ
 
     @JsonProperty("first_name")
     private String firstName;
-    
+
     @JsonProperty("last_name")
     private String lastName;
 
     private String address;
+    private boolean enabled;
 
     // @JsonIgnore
     private String gender;
     
     public PersonVO(){
     }
+    
+    public boolean isEnabled() {
+        return enabled;
+    }
 
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
     public String getFirstName() {
         return firstName;
     }
@@ -78,6 +86,7 @@ public class PersonVO extends  RepresentationModel<PersonVO> implements Serializ
         result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
         result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
         result = prime * result + ((address == null) ? 0 : address.hashCode());
+        result = prime * result + (enabled ? 1231 : 1237);
         result = prime * result + ((gender == null) ? 0 : gender.hashCode());
         return result;
     }
@@ -111,6 +120,8 @@ public class PersonVO extends  RepresentationModel<PersonVO> implements Serializ
                 return false;
         } else if (!address.equals(other.address))
             return false;
+        if (enabled != other.enabled)
+            return false;
         if (gender == null) {
             if (other.gender != null)
                 return false;
@@ -118,5 +129,7 @@ public class PersonVO extends  RepresentationModel<PersonVO> implements Serializ
             return false;
         return true;
     }
+
+    
 }
    
