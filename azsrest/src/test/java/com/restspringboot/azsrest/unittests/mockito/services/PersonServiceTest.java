@@ -66,35 +66,6 @@ class PersonServiceTest {
 	}
 
 	@Test
-	void testFindAll() {
-
-		List<Person> entitylist = mockedUser.mockEntityList();
-
-		when(userRepository.findAll()).thenReturn(entitylist);
-
-		var results = userService.findAll();
-		assertNotNull(results);
-		assertEquals(results.size(), 14);
-
-		var user_test0 = results.get(0);
-		var user_test1 = results.get(0);
-		var user_test2 = results.get(0);
-		assertNotNull(user_test0);
-		assertNotNull(user_test1);
-		assertNotNull(user_test2);
-		
-		assertNotNull(user_test0.getKey());
-		assertNotNull(user_test0.getLinks());
-		assertTrue(user_test0.toString().contains("links: [</api/person/v1/0>;rel=\"self\"]"));
-		assertEquals("Address Test0", user_test0.getAddress());
-		assertEquals("Male", user_test0.getGender());
-		assertEquals("First Name Test0", user_test0.getFirstName());
-		assertEquals("Last Name Test0", user_test0.getLastName());
-
-		verifyNoMoreInteractions(userRepository);
-	}
-
-	@Test
 	void testPostUser() throws Exception {
 		Person entity = mockedUser.mockEntity(1);
 

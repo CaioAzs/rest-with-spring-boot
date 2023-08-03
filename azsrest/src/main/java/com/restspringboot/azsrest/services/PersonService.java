@@ -3,10 +3,11 @@ package com.restspringboot.azsrest.services;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-import java.util.List;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.restspringboot.azsrest.controllers.PersonController;
@@ -29,21 +30,47 @@ public class PersonService {
     @Autowired
     PersonRepository userRepository;
 
-    public List<PersonVO> findAll() {
+    public Page<PersonVO> findAll(Pageable pageable) throws Exception{
 
         logger.info("findAll called");
 
-        var users = DozerMapper.parseObjectList(userRepository.findAll(), PersonVO.class);
+        var personPage = userRepository.findAll(pageable);
 
-        // HATEOAS self
-        users.stream().forEach(u -> {
-            try {
-                u.add(linkTo(methodOn(PersonController.class).findById(u.getKey())).withSelfRel());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-        return users;
+		var personVosPage = personPage.map(p -> DozerMapper.parseObject(p, PersonVO.class));
+		personVosPage.map(
+			p -> {
+                try {
+                    return p.add(
+                    	linkTo(methodOn(PersonController.class)
+                    		.findById(p.getKey())).withSelfRel());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return p;
+            });
+            
+        return personVosPage;
+    }
+    public Page<PersonVO> findPersonByName(String firstName, Pageable pageable) throws Exception{
+
+        logger.info("findAll called");
+
+        var personPage = userRepository.findPersonByName(firstName, pageable);
+
+		var personVosPage = personPage.map(p -> DozerMapper.parseObject(p, PersonVO.class));
+		personVosPage.map(
+			p -> {
+                try {
+                    return p.add(
+                    	linkTo(methodOn(PersonController.class)
+                    		.findById(p.getKey())).withSelfRel());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return p;
+            });
+
+        return personVosPage;
     }
 
     public PersonVO findById(Long id) throws Exception {
