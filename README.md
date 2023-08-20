@@ -1,45 +1,46 @@
 <h1 align="center">
 <br>
-  <img src="https://github.com/CaioAzs/rest-with-spring-boot/assets/113300327/fe33395e-381b-40fe-ad2a-b03848023459" alt="SpringImage" width="200">
+  <img src="https://github.com/CaioAzs/rest-with-spring-boot/assets/113300327/95d95ae2-4e44-4e2a-a296-54b39d304f72" alt="SpringImage" width="200">
 <br>
 <br>
-  Restful API Concepts
+  Restful API Concepts and React
 </h1>
 
-> Status: Under development ⚡
+> Status: Finished✅
 
+<p>Aplicação completa em Java e React que implementa as principais tecnologias do mercado.</p>
+<p>Consiste no cadastro de usuário e livros, utilizando de ferramentas como Spring Data, Spring Security, HATEOAS,<br> Migrations com Flyway, Content Negotiation, Unit Tests com Mockito e JUnit 5, Hibernate e JPA.</p>
+<br>
+<p>É possível fazer as requisições a partir do APP React ou a partir do POSTMAN (para cadastro de usuários).</p>
+<p>Foi disponibilizado na pasta "Postman" o Environment e a Collection para facilitar o acesso aos endpoints.</p>
 
-<p>API complexa em Java que implementa as principais tecnologias utilizadas no mercado.</p>
-<p>Consiste no cadastro CRUD de um usuário, que faz uso de ferramentas como SpringData, SpringSecurity, HATEOAS,<br> Migrations com Flyway, Content Negotiation, Testes unitários com Mockito e JUnit e SpringSecurity com JWT.</p>
-
+<p>Além disso, a página Swagger pode ser acessada para documentação detalhada da API e seus endpoits, tanto de dados quanto de segurança.</p>
+<h3 align=center>http://localhost:8080/swagger-ui/index.html#/</h1>
 
 ## Tecnologias Usadas:
 
 <table>
   <tr>
-    <td>Technology</td>
     <td>Java</td>
     <td>SpringBoot</td> 
+    <td>React</td>
+    <td>Axios</td>
     <td>MySQL</td> 
     <td>FlyWay</td> 
     <td>JUnit</td> 
     <td>Mockito</td> 
+    <td>Download and Upload</td> 
+    <td>Hibernate</td> 
+    <td>JPA</td> 
+    <td>Swagger (Documentation)</td> 
   </tr>
-  <tr>
-    <td>Version</td>
-    <td>20</td>
-    <td>3.1.0</td>
-    <td>4.4.18</td> 
-    <td>--</td> 
-    <td>5</td> 
-    <td>--</td> 
-  </tr>
+
 </table>
 
 ## Como rodar a aplicação:
 
-1. Instale todas as dependências (Java e SpringBoot);
-2. Rode a aplicação na IDE;
+1. Instale todas as dependências (Java e SpringBoot, React e Node caso queira);
+2. Rode a aplicação na IDE ou no terminal com (npm start) na pasta client, e mvn spring-boot:run na pasta /server/azsrest;
 3. Teste as requisições em algum API Client (Postman, por exemplo)!
 
 ## Contribuindo
