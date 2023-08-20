@@ -33,19 +33,16 @@ export default function NewBook() {
             setAuthor(response.data.author)
             setLaunchDate(adjDate)
 
-
         } catch (error) {
             alert(error);
-            navigate('/books');
+            navigate('/book');
         }
     }
 
     useEffect(() => {
-
         if (bookId === '0') return;
         else loadBook();
     }, [bookId])
-
 
     async function saveOrUpdate(e) {
         e.preventDefault();
@@ -72,6 +69,7 @@ export default function NewBook() {
                         Authorization: `Bearer ${accessToken}`
                     }
                 })
+                navigate('/book')
             }
 
         } catch (error) {
@@ -82,23 +80,20 @@ export default function NewBook() {
     return (
         <div className="new-book-container">
             <div className="content">
-                <section className="form">
-                    <h1>Add New Book</h1>
-                    <p>Enter the information then click 'Add'</p>
-                    <Link className="back-link" to="/book">
+                <div className="leftForm">
+                    <div  className='backBtnHome' onClick={() => navigate('/book')}>
                         <FiArrowLeft size={16} color="251fc5" />
-                        Home
-                    </Link>
-                </section>
+                        <p>Home</p>
+                    </div><br/>
+                    <h1>Add new book</h1>
+                </div>
                 <form onSubmit={saveOrUpdate}>
                     <input required placeholder='Title' type="text" value={title} onChange={e => setTitle(e.target.value)} />
                     <input required placeholder='Author' value={author} onChange={e => setAuthor(e.target.value)} />
                     <input required type='date' value={launchDate} onChange={e => setLaunchDate(e.target.value)} />
                     <input required placeholder='Price' value={price} onChange={e => setPrice(e.target.value)} />
 
-                    <button className="button" type="submit">Add</button>
-
-
+                    <button className="defaultButton" type="submit">Add</button>
                 </form>
             </div>
 

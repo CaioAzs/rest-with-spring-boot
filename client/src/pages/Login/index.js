@@ -20,7 +20,7 @@ export default function Login() {
             localStorage.setItem("username", username);
             localStorage.setItem("accessToken", response.data.accessToken);
 
-            navigate('/book');
+            navigate('/');
         } catch (error) {
             console.log(error);
             alert('Login Failed! Try again!');
@@ -33,7 +33,7 @@ export default function Login() {
                 <div class="form-box">
                     <div class="form-value">
                         <form onSubmit={login}>
-                            <h2>Login</h2>
+                            <h2>LOGIN</h2>
                             <div class="inputbox">
                                 <input required value={username} onChange={e => setUsername(e.target.value)} />
                                 <label for="">Username</label>
@@ -42,7 +42,7 @@ export default function Login() {
                                 <input type="password" required value={password} onChange={e => setPassword(e.target.value)} />
                                 <label for="">Password</label>
                             </div>
-                            <button className="button" type="submit">Log in</button>
+                            <button className="defaultButton" type="submit">Log in</button>
                         </form>
                     </div>
                 </div>

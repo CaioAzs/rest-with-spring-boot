@@ -16,7 +16,7 @@
 }
 
 .book-container header span strong{
-    color: #251FC5;
+    color: #ce962f;
 }
 
 .book-container header img{
@@ -40,12 +40,12 @@
 }
 
 .book-container header button:hover{
-    border-color: #251FC5;
+    border-color: #030305;
 }
 
 .book-container h1 {
-    margin-top: 80px;
-    margin-bottom: 24px;
+    margin-top: 30px;
+    margin-bottom: 10px;
 }
 
 .book-container ul {
@@ -80,12 +80,12 @@
 
 .book-container ul li strong{
     display: block;
-    margin-bottom: 16px;
+    margin-bottom: 5px;
     color: #41414D;
 }
 
 .book-container ul li p + strong{
-    margin-top: 32px;
+    margin-top: 10px;
 
 }
 
@@ -93,4 +93,60 @@
     color: #737380;
     line-height: 21px;
     font-size: 16px;
+    margin-bottom: 20px;
+
+}
+
+.image-header{
+    cursor: pointer;
+}
+
+
+.defaultButton1 {
+    width: 60px;
+    height: 60px;
+    background: #d1a15a;
+    border: 0;
+    border-radius: 8px;
+    color: #FFF;
+    font-weight: 700;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    text-decoration: none;
+    font-size: 18px;
+    line-height: 60px;
+    transition: filter 0.2s;
+    margin-left: 20px;
+}
+
+.defaultButton1:hover {
+    filter: brightness(80%);
+}
+
+.fetchButton {
+    width: 50%;
+    height: 60px;
+    background: #d1a15a;
+    border: 0;
+    border-radius: 8px;
+    color: #FFF;
+    font-weight: 700;
+    margin:auto;
+    margin-top: 16px; 
+    text-align: center;
+    text-decoration: none;
+    font-size: 18px;
+    line-height: 60px;
+    transition: filter 0.2s;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.fetchButton:hover {
+    filter: brightness(80%);
 }

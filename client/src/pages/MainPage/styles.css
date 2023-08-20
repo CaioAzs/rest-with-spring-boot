@@ -1,0 +1,108 @@
+.headerMainPage {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+}
+
+.mainPageRenderArea {
+    width: 70%;
+    margin: auto;
+    margin-top: 40px;
+}
+
+.myBooksButton {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    border-radius: 50px;
+    width: 96px;
+    height: 56px;
+    background-color: #d1a15a;
+    cursor: pointer;
+    position: absolute;
+    right: 50%;
+    margin-top: 2px;
+    font-size: 18;
+}
+
+.buttonsText {
+    color: #000;
+    font-weight: 700;
+}
+
+.loginIcon {
+    position: absolute;
+    right: 0;
+    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    background-color: #d1a15a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.logoText {
+    font-size: 56px;
+    font-family: 'Lobster'
+}
+
+.bodyMainPage {
+    display: flex;
+    justify-content: space-between;
+    height: 70vh;
+    margin-top: 20px;
+    align-items: center;
+}
+
+.titleBody {
+    font-size: 92px;
+    font-family: 'Work Sans';
+    font-weight: 700;
+}
+
+.subtitleBody {
+    font-size: 22px;
+    font-family: 'Work Sans';
+    width: 40ch;
+}
+
+.footerMainPage {
+    position: fixed;
+    bottom: 0;
+    height: 52px;
+    width: 100%;
+    background-color: #d1a15a;
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 30px;
+    align-items: center
+}
+
+.footerText {
+    font-size: 20px;
+    font-family: 'Work Sans';
+    font-weight: 600
+}
+
+.footerIcon {
+    border-radius: 50%;
+    width: 42px;
+    height: 42px;
+    background-color: #f4ebdd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.iconsFooter {
+    display: flex;
+    justify-content: space-between;
+    width: 100px;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Lobster&family=Montserrat:wght@400;500;700&family=Work+Sans&display=swap');

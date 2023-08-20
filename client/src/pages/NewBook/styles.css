@@ -9,6 +9,12 @@
     justify-content: space-between;
 }
 
+.backBtnHome {
+    display: flex;
+    align-items: center;
+
+}
+
 .new-book-container .content {
     width: 100%;
     padding: 96px;
