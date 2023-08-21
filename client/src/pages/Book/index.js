@@ -8,6 +8,9 @@ export default function Book() {
 
     const [books, setBooks] = useState([]);
     const [page, setPage] = useState(0);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
+    const [searchActive, setSearchActive] = useState(false);
 
     const username = localStorage.getItem('username');
     const accessToken = localStorage.getItem("accessToken");
@@ -19,6 +22,21 @@ export default function Book() {
             navigate(`/book/new/${id}`)
         } catch (error) {
             alert(error);
+        }
+    }
+
+    async function searchBooks() {
+        try {
+            const response = await api.get(`api/book/v1/findbookbyname/${searchTerm}`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            });
+            console.log(response)
+            setSearchResults(response.data.content);
+
+        } catch (error) {
+            console.error("Error searching for books:", error);
         }
     }
 
@@ -34,7 +52,7 @@ export default function Book() {
                     direction: "asc",
                 }
             });
-    
+
             // Check if there are no more books in the response
             if (response.data._embedded && response.data._embedded.bookVOList.length === 0) {
                 alert("No more books to load.");
@@ -83,31 +101,74 @@ export default function Book() {
                 </div>
             </header>
 
+            <div className='searchGeneral'>
+                <input className='searchBar'
+                    type="text"
+                    placeholder="Search by title..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                />
+                <div className="searchButton" onClick={() => {
+                    setSearchActive(true); // Ativa a busca
+                    searchBooks(); // Realiza a busca
+                }}>Search
+                </div>
+            </div>
             <h1>Registered Books</h1>
-            <ul>
-                {books.map(book => (
-                    <li key={book.id}>
-                        <strong>Title:</strong>
-                        <p>{book.title}</p>
-                        <strong>Author:</strong>
-                        <p>{book.author}</p>
-                        <strong>Price:</strong>
-                        
-                        <p>{Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(book.price)} </p>
-                        <strong>Release Date:</strong>
-                        <p>{Intl.DateTimeFormat('pt-BR').format(new Date(book.launchDate))}</p>
+            {searchActive ? (
+                <div className="search-results">
+                    <ul>
+                        {searchResults.map(book => (
+                            <li key={book.id}>
+                                <strong>Title:</strong>
+                                <p>{book.title}</p>
+                                <strong>Author:</strong>
+                                <p>{book.author}</p>
+                                <strong>Price:</strong>
+
+                                <p>{Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(book.price)} </p>
+                                <strong>Release Date:</strong>
+                                <p>{book.launchDate ? Intl.DateTimeFormat('pt-BR').format(new Date(book.launchDate)) : ''}</p>
+
+                                <div onClick={() => editBook(book.id)} className="defaultButton">
+                                    <FiEdit size={20} />
+                                </div>
+                                <div onClick={() => deleteBook(book.id)} className="defaultButton">
+                                    <FiTrash2 size={20} />
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
+                    <div className="fetchButton" onClick={() => setSearchActive(false)}>Show all books again</div>
+                </div>
+            ) : (
+                <div className="book-list">
+                    <ul>
+                        {books.map(book => (
+                            <li key={book.id}>
+                                <strong>Title:</strong>
+                                <p>{book.title}</p>
+                                <strong>Author:</strong>
+                                <p>{book.author}</p>
+                                <strong>Price:</strong>
+
+                                <p>{Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(book.price)} </p>
+                                <strong>Release Date:</strong>
+                                <p>{Intl.DateTimeFormat('pt-BR').format(new Date(book.launchDate))}</p>
 
 
-                        <div onClick={() => editBook(book.id)} className="defaultButton">
-                            <FiEdit size={20} />
-                        </div>
-                        <div onClick={() => deleteBook(book.id)} className="defaultButton">
-                            <FiTrash2 size={20} />
-                        </div>
-                    </li>
-                ))}
-            </ul>
-            <div className="fetchButton" onClick={fetchMoreBooks}>Load More Books...</div>
+                                <div onClick={() => editBook(book.id)} className="defaultButton">
+                                    <FiEdit size={20} />
+                                </div>
+                                <div onClick={() => deleteBook(book.id)} className="defaultButton">
+                                    <FiTrash2 size={20} />
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
+                    <div className="fetchButton" onClick={fetchMoreBooks}>Load More Books...</div>
+                </div>
+            )}
 
         </div>
     );

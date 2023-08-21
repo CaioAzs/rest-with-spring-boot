@@ -6,6 +6,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.EntityModel;
@@ -58,6 +59,28 @@ public class BookService {
 		
 		return assembler.toModel(booksVOs, findAllLink);
 	}
+
+    public Page<BookVO> findBookByName(String title, Pageable pageable) throws Exception{
+
+        logger.info("findAll called");
+
+        var personPage = bookRepository.findBookByName(title, pageable);
+
+		var personVosPage = personPage.map(p -> DozerMapper.parseObject(p, BookVO.class));
+		personVosPage.map(
+			p -> {
+                try {
+                    return p.add(
+                    	linkTo(methodOn(BookController.class)
+                    		.findById(p.getKey())).withSelfRel());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return p;
+            });
+
+        return personVosPage;
+    }
 
     public BookVO findById(Long id) throws Exception {
 
