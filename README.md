@@ -40,8 +40,9 @@
 ## Como rodar a aplicação:
 
 1. Instale todas as dependências (Java e SpringBoot, React e Node caso queira);
-2. Rode a aplicação na IDE ou no terminal com (npm start) na pasta client, e mvn spring-boot:run na pasta /server/azsrest;
-3. Teste as requisições em algum API Client (Postman, por exemplo)!
+2. Criar um banco no MySQL workbench chamado 'rest_with_spring_boot_azs'
+3. Rode a aplicação na IDE ou no terminal com (npm start) na pasta client, e mvn spring-boot:run na pasta /server/azsrest;
+4. Teste as requisições em algum API Client ou pelo APP React(Postman, por exemplo)!
 
 ## Contribuindo
 
