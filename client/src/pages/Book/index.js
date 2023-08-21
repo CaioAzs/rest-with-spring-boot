@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import './styles.css'
 import api from '../../services/api'
-import { FiEdit, FiTrash2, FiLogIn, FiDollarSign } from 'react-icons/fi'
+import { FiEdit, FiTrash2, FiLogIn } from 'react-icons/fi'
 
 export default function Book() {
 
@@ -23,19 +23,29 @@ export default function Book() {
     }
 
     async function fetchMoreBooks() {
-        const response = await api.get("api/book/v1", {
-            headers: {
-                Authorization: `Bearer ${accessToken}`
-            },
-            params: {
-                page: 0,
-                limit: 2,
-                direction: "asc",
+        try {
+            const response = await api.get("api/book/v1", {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                },
+                params: {
+                    page: page,
+                    size: 4,
+                    direction: "asc",
+                }
+            });
+    
+            // Check if there are no more books in the response
+            if (response.data._embedded && response.data._embedded.bookVOList.length === 0) {
+                alert("No more books to load.");
+                // Optionally, you can disable the "Load More Books..." button here
+            } else {
+                setBooks([...books, ...response.data._embedded.bookVOList]);
+                setPage(page + 1);
             }
-        });
-
-        setBooks([...books, ...response.data._embedded.bookVOList])
-        setPage(page + 1);
+        } catch (error) {
+            console.error("Error fetching more books:", error);
+        }
     }
 
     async function logout(id) {
@@ -96,7 +106,6 @@ export default function Book() {
                         </div>
                     </li>
                 ))}
-
             </ul>
             <div className="fetchButton" onClick={fetchMoreBooks}>Load More Books...</div>
 
